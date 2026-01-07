@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Services | Active Engineering Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0A2D3E;
+            --primary: #0F4C5C;
+            --primary-light: #1A6B7A;
+            --accent: #FF9E3D;
+            --accent-dark: #E67E22;
+            --accent-light: #FFB366;
+            --neutral-dark: #1A1A1A;
+            --neutral: #333333;
+            --neutral-light: #4D4D4D;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --sidebar-width: 80px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--neutral-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+        
+        /* Sidebar vertical text */
+        .sidebar-text {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left top;
+            color: rgba(15, 76, 92, 0.1);
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 1;
+            pointer-events: none;
+            width: 100vh;
+            height: var(--sidebar-width);
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+        }
+        
+        .sidebar-text.left {
+            left: 0;
+        }
+        
+        .sidebar-text.right {
+            right: 0;
+            left: auto;
+            transform: translateY(-50%) rotate(90deg);
+            transform-origin: right top;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+        
+        /* Container with side spacing */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .sidebar-text {
+                display: none;
+            }
+        }
+        
+        /* Header & Navigation */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+        
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 20px;
+        }
+        
+        .brand-text {
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--neutral);
+            font-weight: 600;
+            font-size: 15px;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:not(.btn):after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:not(.btn):hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:not(.btn):hover:after {
+            width: 100%;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: var(--neutral-dark);
+        }
+        
+        .btn-accent:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .page-hero {
+            padding: 100px 0 80px;
+            background: linear-gradient(135deg, rgba(10, 45, 62, 0.9) 0%, rgba(15, 76, 92, 0.8) 100%), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-hero .container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            opacity: 0.9;
+            max-width: 700px;
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 80px 0 60px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+        }
+        
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--neutral-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Service Classification */
+        .service-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--light-gray);
+            flex-wrap: wrap;
+        }
+        
+        .service-tab {
+            padding: 16px 24px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--neutral);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .service-tab:hover {
+            color: var(--primary);
+        }
+        
+        .service-tab.active {
+            color: var(--primary);
+        }
+        
+        .service-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        /* Service Categories */
+        .service-category {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .service-category.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Topographical Survey Services */
+        .survey-services {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        @media (max-width: 992px) {
+            .survey-services {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .survey-service-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .survey-service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .survey-service-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--white);
+            font-size: 24px;
+        }
+        
+        .survey-service-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--primary-dark);
+        }
+        
+        .survey-service-description {
+            color: var(--neutral);
+            margin-bottom: 20px;
+        }
+        
+        .survey-service-features {
+            margin-top: 20px;
+        }
+        
+        .survey-service-features li {
+            margin-bottom: 8px;
+            color: var(--neutral-light);
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .survey-service-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        /* Other Services Grid */
+        .other-services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        @media (max-width: 992px) {
+            .other-services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .other-services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .service-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        .service-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+        
+        .service-description {
+            color: var(--neutral);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        /* Clients Section */
+        .clients-section {
+            background-color: var(--light-gray);
+            padding: 60px 0;
+        }
+        
+        .client-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .client-logo {
+            height: 60px;
+            filter: grayscale(1);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        
+        .client-logo:hover {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--neutral-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral-dark);
+            font-weight: 700;
+            font-size: 24px;
+        }
+        
+        .footer-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+            
+            .service-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .service-tab {
+                width: 100%;
+                text-align: center;
+                border-bottom: 1px solid var(--light-gray);
+            }
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 90px;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: var(--shadow-lg);
+            padding: 20px;
+            z-index: 999;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            pointer-events: none;
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .mobile-menu a {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: var(--neutral);
+            font-weight: 600;
+        }
+        
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-40 {
+            margin-top: 40px;
+        }
+        
+        .mb-40 {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Vertical Text -->
+    <div class="sidebar-text left">OUR SERVICES</div>
+    <div class="sidebar-text right">SURVEYING EXPERTS</div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-container">
+                <a href="index.html" class="brand">
+                    <div class="brand-logo">AEG</div>
+                    <div class="brand-text">ACTIVE ENGINEERING GROUP</div>
+                </a>
+                
+                <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="projects.html">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html" class="btn btn-accent">Contact Us</a>
+</nav>
+                
+                <button class="nav-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="projects.html">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact Us</a>
+</div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="hero-title fade-in">Our Services</h1>
+            <p class="hero-subtitle fade-in delay-1">We cover the full spectrum of engineering requirements from concept to delivery, with strict QA/QC and value engineering optimization.</p>
+        </div>
+    </section>
+    
+    <!-- Service Classification Tabs -->
+    <section class="section">
+        <div class="container">
+            <div class="service-tabs">
+                <button class="service-tab active" data-category="topographical">Topographical Survey Services</button>
+                <button class="service-tab" data-category="other">Other Engineering Services</button>
+            </div>
+            
+            <!-- Topographical Survey Services -->
+            <div class="service-category active" id="topographical-category">
+                <div class="section-header">
+                    <h2 class="section-title fade-in">Topographical Survey Services</h2>
+                    <p class="section-subtitle fade-in delay-1">Professional surveying services across several surveying domains to support planning, design, construction, and land management projects.</p>
+                </div>
+                
+                <div class="survey-services">
+                    <!-- Cadastral Surveying -->
+                    <div class="survey-service-card fade-in">
+                        <div class="survey-service-icon">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h3 class="survey-service-title">1. Cadastral (Land) Surveying</h3>
+                        <p class="survey-service-description">ACTIVE ENGINEERING Group carries out land boundary surveys to define, measure, and document property limits. These activities support land registration, land subdivision, and resolution of boundary disputes.</p>
+                        <div class="survey-service-features">
+                            <ul>
+                                <li>Land boundary surveys and demarcation</li>
+                                <li>Property boundary definition and measurement</li>
+                                <li>Cadastral plan preparation</li>
+                                <li>Legal survey reports for land administration</li>
+                                <li>Land subdivision services</li>
+                                <li>Boundary dispute resolution</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Topographical Surveying -->
+                    <div class="survey-service-card fade-in delay-1">
+                        <div class="survey-service-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h3 class="survey-service-title">2. Topographical Surveying</h3>
+                        <p class="survey-service-description">Mapping natural and man-made features of land, including elevations and contours. These surveys provide essential data for project planning, road design, quarry development, and environmental studies.</p>
+                        <div class="survey-service-features">
+                            <ul>
+                                <li>Contour mapping and elevation surveys</li>
+                                <li>Natural and man-made feature mapping</li>
+                                <li>Site analysis for development projects</li>
+                                <li>Road and infrastructure design support</li>
+                                <li>Quarry development surveys</li>
+                                <li>Tourism facility planning surveys</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Engineering & Construction Surveying -->
+                    <div class="survey-service-card fade-in delay-2">
+                        <div class="survey-service-icon">
+                            <i class="fas fa-ruler-combined"></i>
+                        </div>
+                        <h3 class="survey-service-title">3. Engineering & Construction Surveying</h3>
+                        <p class="survey-service-description">Supports construction projects through setting-out works, leveling, alignment of roads, buildings, and other structures. Ensures designs are accurately transferred from drawings to the ground.</p>
+                        <div class="survey-service-features">
+                            <ul>
+                                <li>Construction site setting-out</li>
+                                <li>Building alignment and leveling</li>
+                                <li>Road and infrastructure alignment</li>
+                                <li>As-built surveys for progress monitoring</li>
+                                <li>Quantity calculations and verification</li>
+                                <li>Construction quality control surveys</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Geodetic & Control Surveys -->
+                    <div class="survey-service-card fade-in">
+                        <div class="survey-service-icon">
+                            <i class="fas fa-satellite"></i>
+                        </div>
+                        <h3 class="survey-service-title">4. Geodetic & Control Surveys</h3>
+                        <p class="survey-service-description">Establishment of precise horizontal and vertical control points using modern GNSS and total station instruments. These control networks ensure accuracy for large-scale mapping and engineering projects.</p>
+                        <div class="survey-service-features">
+                            <ul>
+                                <li>Horizontal and vertical control point establishment</li>
+                                <li>GNSS and total station surveys</li>
+                                <li>Geodetic network design and implementation</li>
+                                <li>Coordinate system transformation</li>
+                                <li>Large-scale mapping control</li>
+                                <li>Precision survey network development</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Bathymetric Surveys -->
+                    <div class="survey-service-card fade-in delay-1">
+                        <div class="survey-service-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h3 class="survey-service-title">5. Bathymetric Surveys</h3>
+                        <p class="survey-service-description">Measurement and mapping of depth and underwater features of water bodies using echo sounders (sonar) combined with GPS/GNSS equipment. Essential for water resource management and flood studies.</p>
+                        <div class="survey-service-features">
+                            <ul>
+                                <li>Lake, river, and reservoir depth mapping</li>
+                                <li>Underwater feature detection and mapping</li>
+                                <li>Dam and bridge project support</li>
+                                <li>Flood study and analysis</li>
+                                <li>Bathymetric maps and digital models</li>
+                                <li>Water resource management surveys</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- GIS & Mapping Services -->
+                    <div class="survey-service-card fade-in delay-2">
+                        <div class="survey-service-icon">
+                            <i class="fas fa-map"></i>
+                        </div>
+                        <h3 class="survey-service-title">6. GIS & Mapping Services</h3>
+                        <p class="survey-service-description">Utilizing GIS and digital mapping techniques to manage spatial data, produce maps, and support decision-making. Applied in urban planning, land management, and infrastructure development.</p>
+                        <div class="survey-service-features">
+                            <ul>
+                                <li>GIS data management and analysis</li>
+                                <li>Digital mapping and cartography</li>
+                                <li>Spatial database development</li>
+                                <li>Urban planning support</li>
+                                <li>Land management systems</li>
+                                <li>Infrastructure development mapping</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other Engineering Services -->
+            <div class="service-category" id="other-category">
+                <div class="section-header">
+                    <h2 class="section-title fade-in">Other Engineering Services</h2>
+                    <p class="section-subtitle fade-in delay-1">Comprehensive civil engineering and project management services beyond surveying to support your infrastructure projects.</p>
+                </div>
+                
+                <div class="other-services-grid">
+                    <!-- Road Design -->
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <h3 class="service-title">Road Design</h3>
+                        <p class="service-description">Highway alignments, intersections, roundabouts, drainage and pavement design with value engineering optimization for cost-effective solutions.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Bridge Design -->
+                    <div class="service-card fade-in delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-bridge"></i>
+                        </div>
+                        <h3 class="service-title">Bridge Design</h3>
+                        <p class="service-description">Concept, analysis, detailed design and checking for steel and concrete bridges, with structural appraisal and safety audits.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Structural Appraisal & Audit -->
+                    <div class="service-card fade-in delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3 class="service-title">Structural Appraisal & Audit</h3>
+                        <p class="service-description">Condition assessment, safety audits, peer reviews and retrofit recommendations for existing structures.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Structural Peer Reviews -->
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3 class="service-title">Structural Peer Reviews</h3>
+                        <p class="service-description">Independent verification to optimize safety, cost and constructability of structural designs.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Site Inspections -->
+                    <div class="service-card fade-in delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                        <h3 class="service-title">Site Inspections</h3>
+                        <p class="service-description">Quality compliance checks, supervision and reporting throughout construction phases.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Feasibility & Site Analysis -->
+                    <div class="service-card fade-in delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="service-title">Feasibility & Site Analysis</h3>
+                        <p class="service-description">Techno-economic studies, environmental and social considerations for project viability.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- WSS Survey & Design -->
+                    <div class="service-card fade-in">
+                        <div class="service-icon">
+                            <i class="fas fa-faucet"></i>
+                        </div>
+                        <h3 class="service-title">WSS Survey & Design</h3>
+                        <p class="service-description">Water Supply System surveys and designs for urban and rural schemes, ensuring sustainable water access.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Airport WGS84 Survey -->
+                    <div class="service-card fade-in delay-1">
+                        <div class="service-icon">
+                            <i class="fas fa-plane"></i>
+                        </div>
+                        <h3 class="service-title">Airport WGS84 Survey</h3>
+                        <p class="service-description">Precise geodetic control in WGS84 for airport facilities and runways, ensuring international standards compliance.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                    
+                    <!-- Stormwater & Sewer Management -->
+                    <div class="service-card fade-in delay-2">
+                        <div class="service-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3 class="service-title">Stormwater & Sewer Management</h3>
+                        <p class="service-description">Hydraulic analysis and site infrastructure design for resilience against flooding and water management.</p>
+                        <a href="contact.html" class="btn btn-outline">Inquire About Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Clients Section -->
+    <section class="clients-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title fade-in">Our Clients & Partners</h2>
+                <p class="section-subtitle fade-in delay-1">We work collaboratively with government agencies, private developers, and international organizations to deliver exceptional engineering solutions.</p>
+            </div>
+            
+            <div class="client-logos">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=RTDA" alt="RTDA" class="client-logo">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=Kigali+City" alt="Kigali City" class="client-logo">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=Powerchina" alt="Powerchina" class="client-logo">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=Gov+Rwanda" alt="Government of Rwanda" class="client-logo">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=World+Bank" alt="World Bank" class="client-logo">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=EUCL" alt="EUCL" class="client-logo">
+                <img src="https://via.placeholder.com/150x60/0F4C5C/FFFFFF?text=SWACOF" alt="SWACOF" class="client-logo">
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="section">
+        <div class="container text-center">
+            <h2 class="section-title fade-in">Need Professional Surveying or Engineering Services?</h2>
+            <p class="section-subtitle fade-in delay-1" style="max-width: 600px; margin: 0 auto 32px;">Contact us today for a consultation on how we can support your project with our comprehensive engineering and surveying expertise.</p>
+            <div class="fade-in delay-2" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <a href="contact.html" class="btn btn-accent">Request a Quote</a>
+                <a href="tel:+250781537973" class="btn btn-primary">Call Our Experts</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">AEG</div>
+                    <div>
+                        <div style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">Active Engineering Group</div>
+                        <p style="color: rgba(255, 255, 255, 0.7);">Integrity • Excellence • Sustainability • Client-Centered • Innovation</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Quick Links</div>
+                    <div class="footer-links">
+                        <a href="services.html">Services</a>
+                        <a href="projects.html">Projects</a>
+                        <a href="about.html">About Us</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Contact Info</div>
+                    <div style="color: rgba(255, 255, 255, 0.7);">
+                        <p style="margin-bottom: 10px;">KG14 Ave, Gisozi, Kigali — Rwanda</p>
+                        <p style="margin-bottom: 10px;">activegroup2021@gmail.com</p>
+                        <p>+250 781 537 973 / +250 788 981 320</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Active Engineering Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+        
+        // Service Tab Functionality
+        const serviceTabs = document.querySelectorAll('.service-tab');
+        const serviceCategories = document.querySelectorAll('.service-category');
+        
+        serviceTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                serviceTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Get category to show
+                const categoryToShow = tab.getAttribute('data-category');
+                
+                // Hide all categories
+                serviceCategories.forEach(category => {
+                    category.classList.remove('active');
+                });
+                
+                // Show selected category
+                document.getElementById(`${categoryToShow}-category`).classList.add('active');
+            });
+        });
+        
+        // Fade-in animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        function checkFade() {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Initial check
+        checkFade();
+        
+        // Check on scroll
+        window.addEventListener('scroll', checkFade);
+    </script>
+</body>
+</html>

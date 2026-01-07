@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog | Active Engineering Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0A2D3E;
+            --primary: #0F4C5C;
+            --primary-light: #1A6B7A;
+            --accent: #FF9E3D;
+            --accent-dark: #E67E22;
+            --accent-light: #FFB366;
+            --neutral-dark: #1A1A1A;
+            --neutral: #333333;
+            --neutral-light: #4D4D4D;
+            --light-gray: #F5F5F5;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+            --transition: all 0.3s ease;
+            --sidebar-width: 80px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--neutral-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+        
+        /* Sidebar vertical text */
+        .sidebar-text {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            transform-origin: left top;
+            color: rgba(15, 76, 92, 0.1);
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 1;
+            pointer-events: none;
+            width: 100vh;
+            height: var(--sidebar-width);
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+        }
+        
+        .sidebar-text.left {
+            left: 0;
+        }
+        
+        .sidebar-text.right {
+            right: 0;
+            left: auto;
+            transform: translateY(-50%) rotate(90deg);
+            transform-origin: right top;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+        
+        /* Container with side spacing */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .sidebar-text {
+                display: none;
+            }
+        }
+        
+        /* Header & Navigation */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: var(--transition);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+        
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 20px;
+        }
+        
+        .brand-text {
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--neutral);
+            font-weight: 600;
+            font-size: 15px;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:not(.btn):after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:not(.btn):hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a:not(.btn):hover:after {
+            width: 100%;
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: var(--neutral-dark);
+        }
+        
+        .btn-accent:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .page-hero {
+            padding: 100px 0 80px;
+            background: linear-gradient(135deg, rgba(10, 45, 62, 0.9) 0%, rgba(15, 76, 92, 0.8) 100%), url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-hero .container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            font-weight: 400;
+            opacity: 0.9;
+            max-width: 700px;
+        }
+        
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 80px 0 60px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+        }
+        
+        /* Section Styling */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--neutral-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Blog Layout */
+        .blog-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+        }
+        
+        @media (max-width: 992px) {
+            .blog-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Featured Article */
+        .featured-article {
+            margin-bottom: 60px;
+        }
+        
+        .featured-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+        
+        .featured-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .featured-img {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .featured-card:hover .featured-img img {
+            transform: scale(1.05);
+        }
+        
+        .featured-content {
+            padding: 40px;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 16px;
+            color: var(--neutral-light);
+            font-size: 14px;
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .article-meta i {
+            color: var(--accent);
+        }
+        
+        .featured-content h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            line-height: 1.2;
+        }
+        
+        .featured-content p {
+            color: var(--neutral);
+            margin-bottom: 24px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .blog-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .blog-img {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .blog-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .blog-card:hover .blog-img img {
+            transform: scale(1.05);
+        }
+        
+        .blog-content {
+            padding: 25px;
+        }
+        
+        .blog-category {
+            display: inline-block;
+            background-color: var(--accent);
+            color: var(--neutral-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .blog-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+            line-height: 1.3;
+        }
+        
+        .blog-content p {
+            color: var(--neutral);
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+            font-size: 12px;
+            color: var(--neutral-light);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 40px;
+        }
+        
+        .sidebar-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        /* Categories */
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-list li {
+            margin-bottom: 12px;
+        }
+        
+        .category-list a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            color: var(--neutral);
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+        
+        .category-list a:hover {
+            color: var(--primary);
+        }
+        
+        .category-list span {
+            background-color: var(--light-gray);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Recent Posts */
+        .recent-post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .recent-post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .recent-post-img {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .recent-post-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .recent-post-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary-dark);
+            line-height: 1.3;
+        }
+        
+        .recent-post-content span {
+            font-size: 12px;
+            color: var(--neutral-light);
+        }
+        
+        /* Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tag {
+            background-color: var(--light-gray);
+            color: var(--neutral);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .tag:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Newsletter */
+        .newsletter-form {
+            margin-top: 20px;
+        }
+        
+        .newsletter-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius);
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Load More */
+        .load-more {
+            text-align: center;
+            margin-top: 60px;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--neutral-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            background-color: var(--accent);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral-dark);
+            font-weight: 700;
+            font-size: 24px;
+        }
+        
+        .footer-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-toggle {
+                display: block;
+            }
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 90px;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: var(--shadow-lg);
+            padding: 20px;
+            z-index: 999;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            pointer-events: none;
+        }
+        
+        .mobile-menu.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .mobile-menu a {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: var(--neutral);
+            font-weight: 600;
+        }
+        
+        .mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-40 {
+            margin-top: 40px;
+        }
+        
+        .mb-40 {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Vertical Text -->
+    <div class="sidebar-text left">ENGINEERING INSIGHTS</div>
+    <div class="sidebar-text right">BLOG & UPDATES</div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-container">
+                <a href="index.html" class="brand">
+                    <div class="brand-logo">AEG</div>
+                    <div class="brand-text">ACTIVE ENGINEERING GROUP</div>
+                </a>
+                
+                <nav class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="projects.html">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html" class="btn btn-accent">Contact Us</a>
+</nav>
+                
+                <button class="nav-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="projects.html">Projects</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact Us</a>
+</div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="hero-title fade-in">Engineering Insights</h1>
+            <p class="hero-subtitle fade-in delay-1">News, case studies, and engineering insights from our projects across Rwanda and the region.</p>
+        </div>
+    </section>
+    
+    <!-- Blog Section -->
+    <section class="section">
+        <div class="container">
+            <!-- Featured Article -->
+            <div class="featured-article fade-in">
+                <div class="featured-card">
+                    <div class="featured-img">
+                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Value Engineering for Urban Roads">
+                    </div>
+                    <div class="featured-content">
+                        <div class="article-meta">
+                            <span><i class="fas fa-calendar-alt"></i> March 15, 2024</span>
+                            <span><i class="fas fa-user"></i> Eng. Virgile Mugisha</span>
+                            <span><i class="fas fa-tag"></i> Road Design</span>
+                        </div>
+                        <h2>Value Engineering for Urban Roads: Optimizing Cost, Safety, and Constructability</h2>
+                        <p>Discover how early design audits can save up to 15% on urban road projects while maintaining the highest quality standards. Our latest case study from the Huye City Roads project reveals innovative approaches to value engineering that enhance both safety and sustainability.</p>
+                        <a href="#" class="btn btn-accent">Read Full Article</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Blog Layout -->
+            <div class="blog-layout">
+                <!-- Main Content -->
+                <div class="blog-main">
+                    <div class="blog-grid">
+                        <!-- Article 1 -->
+                        <article class="blog-card fade-in delay-1">
+                            <div class="blog-img">
+                                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Survey Accuracy at Scale">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-category">Surveying</div>
+                                <h3>Survey Accuracy at Scale: Lessons from 487km of WSS Surveys</h3>
+                                <p>Learn how our team achieved millimeter-level accuracy across 487 kilometers of water supply system surveys in Rusizi District, and the control network design principles that made it possible.</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Read More</a>
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> Feb 28, 2024</span>
+                                    <span><i class="fas fa-clock"></i> 5 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- Article 2 -->
+                        <article class="blog-card fade-in delay-2">
+                            <div class="blog-img">
+                                <img src="https://images.unsplash.com/photo-1516939884445-4e6f5fca5c2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Street Lighting for Safer Mobility">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-category">Urban Design</div>
+                                <h3>Street Lighting for Safer Mobility: Designing Efficient Urban Lighting Schemes</h3>
+                                <p>Explore innovative approaches to street lighting design that enhance pedestrian safety while reducing energy consumption by up to 40% through smart technology integration.</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Read More</a>
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> Feb 15, 2024</span>
+                                    <span><i class="fas fa-clock"></i> 4 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- Article 3 -->
+                        <article class="blog-card fade-in delay-1">
+                            <div class="blog-img">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bridge Construction Innovations">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-category">Bridge Design</div>
+                                <h3>Modern Bridge Construction: Innovations in Materials and Techniques</h3>
+                                <p>From the Nyagatare Bridge project, learn about new materials and construction techniques that are revolutionizing bridge engineering in Rwanda's challenging terrain.</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Read More</a>
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> Jan 30, 2024</span>
+                                    <span><i class="fas fa-clock"></i> 6 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- Article 4 -->
+                        <article class="blog-card fade-in delay-2">
+                            <div class="blog-img">
+                                <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sustainable Water Management">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-category">Water Resources</div>
+                                <h3>Sustainable Water Management: Lessons from Rwanda's Rural Water Projects</h3>
+                                <p>How innovative design and community engagement are ensuring sustainable water access in Rwanda's remote areas, with case studies from our recent projects.</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Read More</a>
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> Jan 18, 2024</span>
+                                    <span><i class="fas fa-clock"></i> 7 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- Article 5 -->
+                        <article class="blog-card fade-in delay-1">
+                            <div class="blog-img">
+                                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Geodetic Surveying">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-category">Surveying</div>
+                                <h3>Precision Geodetic Control: The Backbone of Major Infrastructure Projects</h3>
+                                <p>Understanding the critical role of precise geodetic control in large-scale projects like the Bugesera Airport, and how we achieve millimeter accuracy across thousands of hectares.</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Read More</a>
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> Jan 5, 2024</span>
+                                    <span><i class="fas fa-clock"></i> 5 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                        
+                        <!-- Article 6 -->
+                        <article class="blog-card fade-in delay-2">
+                            <div class="blog-img">
+                                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Stormwater Management">
+                            </div>
+                            <div class="blog-content">
+                                <div class="blog-category">Environmental</div>
+                                <h3>Smart Stormwater Management: Preventing Urban Flooding in Kigali</h3>
+                                <p>Innovative approaches to urban drainage design that are helping Kigali become more resilient to climate change while enhancing urban aesthetics and functionality.</p>
+                                <a href="#" class="btn btn-outline" style="margin-top: 10px;">Read More</a>
+                                <div class="blog-meta">
+                                    <span><i class="fas fa-calendar-alt"></i> Dec 20, 2023</span>
+                                    <span><i class="fas fa-clock"></i> 6 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    
+                    <!-- Load More Button -->
+                    <div class="load-more">
+                        <button class="btn btn-accent" id="loadMoreBtn">
+                            <i class="fas fa-plus"></i> Load More Articles
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <aside class="sidebar fade-in delay-3">
+                    <!-- Categories -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Categories</h3>
+                        <ul class="category-list">
+                            <li><a href="#">Road Design <span>8</span></a></li>
+                            <li><a href="#">Surveying <span>12</span></a></li>
+                            <li><a href="#">Bridge Engineering <span>6</span></a></li>
+                            <li><a href="#">Water Resources <span>9</span></a></li>
+                            <li><a href="#">Urban Development <span>7</span></a></li>
+                            <li><a href="#">Project Management <span>5</span></a></li>
+                            <li><a href="#">Environmental <span>4</span></a></li>
+                            <li><a href="#">Case Studies <span>15</span></a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Recent Posts -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Recent Posts</h3>
+                        <div class="recent-post">
+                            <div class="recent-post-img">
+                                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Recent Post">
+                            </div>
+                            <div class="recent-post-content">
+                                <h4>Value Engineering for Urban Roads</h4>
+                                <span>March 15, 2024</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-post-img">
+                                <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Recent Post">
+                            </div>
+                            <div class="recent-post-content">
+                                <h4>Survey Accuracy at Scale</h4>
+                                <span>Feb 28, 2024</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-post-img">
+                                <img src="https://images.unsplash.com/photo-1516939884445-4e6f5fca5c2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Recent Post">
+                            </div>
+                            <div class="recent-post-content">
+                                <h4>Street Lighting Design</h4>
+                                <span>Feb 15, 2024</span>
+                            </div>
+                        </div>
+                        <div class="recent-post">
+                            <div class="recent-post-img">
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Recent Post">
+                            </div>
+                            <div class="recent-post-content">
+                                <h4>Bridge Construction Innovations</h4>
+                                <span>Jan 30, 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tags -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Popular Tags</h3>
+                        <div class="tags">
+                            <a href="#" class="tag">Engineering</a>
+                            <a href="#" class="tag">Surveying</a>
+                            <a href="#" class="tag">Road Design</a>
+                            <a href="#" class="tag">Infrastructure</a>
+                            <a href="#" class="tag">Rwanda</a>
+                            <a href="#" class="tag">Sustainability</a>
+                            <a href="#" class="tag">Construction</a>
+                            <a href="#" class="tag">Urban Planning</a>
+                            <a href="#" class="tag">Water Supply</a>
+                            <a href="#" class="tag">Bridge Design</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Newsletter -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">Newsletter</h3>
+                        <p style="color: var(--neutral); font-size: 14px; margin-bottom: 15px;">Subscribe to our newsletter for the latest engineering insights and project updates.</p>
+                        <form class="newsletter-form">
+                            <input type="email" class="newsletter-input" placeholder="Enter your email">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">Subscribe</button>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">AEG</div>
+                    <div>
+                        <div style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">Active Engineering Group</div>
+                        <p style="color: rgba(255, 255, 255, 0.7);">Integrity • Excellence • Sustainability • Client-Centered • Innovation</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Quick Links</div>
+                    <div class="footer-links">
+                        <a href="services.html">Services</a>
+                        <a href="projects.html">Projects</a>
+                        <a href="about.html">About Us</a>
+                        <a href="blog.html">Blog</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="footer-title">Contact Info</div>
+                    <div style="color: rgba(255, 255, 255, 0.7);">
+                        <p style="margin-bottom: 10px;">KG14 Ave, Gisozi, Kigali — Rwanda</p>
+                        <p style="margin-bottom: 10px;">activegroup2021@gmail.com</p>
+                        <p>+250 781 537 973 / +250 788 981 320</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Active Engineering Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuToggle && mobileMenu) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                });
+            });
+        }
+        
+        // Load More Articles
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                // In a real application, this would load more articles from a server
+                // For demo purposes, we'll just show an alert
+                alert('Loading more articles... In a real application, this would fetch additional blog posts from a server.');
+                
+                // Disable button after click (for demo)
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-check"></i> All Articles Loaded';
+            });
+        }
+        
+        // Newsletter Form
+        const newsletterForm = document.querySelector('.newsletter-form');
+        
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const emailInput = this.querySelector('input[type="email"]');
+                
+                if (emailInput.value) {
+                    alert('Thank you for subscribing to our newsletter!');
+                    emailInput.value = '';
+                }
+            });
+        }
+        
+        // Fade-in animation on scroll
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        function checkFade() {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        // Initial check
+        checkFade();
+        
+        // Check on scroll
+        window.addEventListener('scroll', checkFade);
+    </script>
+</body>
+</html>

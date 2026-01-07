@@ -1,0 +1,188 @@
+:root {
+    --sidebar-width: 80px;
+}
+
+/* Add vertical sidebar styling */
+.sidebar-vertical-text {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left top;
+    color: rgba(15, 59, 76, 0.1);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 1;
+    pointer-events: none;
+    width: 100vh;
+    height: var(--sidebar-width);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.sidebar-right {
+    left: auto;
+    right: 0;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: right top;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+/* Mobile menu improvements */
+.mobile-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 1000;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.mobile-menu.is-open {
+    max-height: 500px;
+}
+
+.mobile-menu a {
+    display: block;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+
+.mobile-menu .btn-accent {
+    margin: 1rem 1.5rem;
+    display: inline-block;
+}
+
+.nav-toggle {
+    background: none;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    cursor: pointer;
+}
+
+/* Project scroll buttons */
+.project-scroll-container {
+    position: relative;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 20px;
+}
+
+.project-scroll-wrapper {
+    display: flex;
+    gap: 24px;
+    padding: 10px 0;
+    min-width: min-content;
+}
+
+.scroll-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.scroll-button:hover {
+    background: var(--accent);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-button.left {
+    left: -20px;
+}
+
+.scroll-button.right {
+    right: -20px;
+}
+
+.scroll-button.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Video carousel */
+.video-carousel {
+    width: 100%;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    margin-bottom: 48px;
+}
+
+.video-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.video-carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.video-carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 48px 32px 32px;
+}
+
+.video-carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 5;
+}
+
+.video-carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.video-carousel-dot.active {
+    background: var(--accent);
+    transform: scale(1.2);
+}
