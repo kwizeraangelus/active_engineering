@@ -23,310 +23,171 @@
             --shadow: 0 4px 20px rgba(0,0,0,0.12);
             --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
             --transition: all 0.3s ease;
-            --sidebar-width: 80px;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
         
         body {
             font-family: 'Inter', sans-serif;
             color: var(--neutral-dark);
-            background-color: var(--white);
+            background: var(--white);
             line-height: 1.6;
         }
         
-        /* Sidebar vertical text */
         .sidebar-text {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%) rotate(-90deg);
-            transform-origin: left top;
-            color: rgba(15, 76, 92, 0.1);
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            white-space: nowrap;
-            z-index: 1;
-            pointer-events: none;
-            width: 100vh;
-            height: var(--sidebar-width);
-            display: flex;
-            align-items: center;
-            padding-left: 20px;
-        }
+    position: fixed;
+    top: 80%;                           /* ← changed from 50% → pushed lower */
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: left top;
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    z-index: 1;
+    pointer-events: none;
+    color: rgba(15, 76, 92, 0.18);
+    text-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    padding: 0 80px;
+    line-height: 1;
+}
+
+.sidebar-text.left {
+    left: 0;
+}
+
+.sidebar-text.right {
+    right: 0;
+    left: auto;
+    transform: translateY(-50%) rotate(90deg);
+    transform-origin: right top;
+    justify-content: flex-end;
+    padding-right: 80px;
+}
         
-        .sidebar-text.left {
-            left: 0;
-        }
-        
-        .sidebar-text.right {
-            right: 0;
-            left: auto;
-            transform: translateY(-50%) rotate(90deg);
-            transform-origin: right top;
-            justify-content: flex-end;
-            padding-right: 20px;
-        }
-        
-        /* Container with side spacing */
         .container {
-            width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px;
+            padding: 0 30px;
         }
         
         @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-            
-            .sidebar-text {
-                display: none;
-            }
+            .container { padding: 0 16px; }
+            .sidebar-text { display: none; }
         }
         
-        /* Header & Navigation */
+        /* Header styles (unchanged) */
         .header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: rgba(255, 255, 255, 0.95);
+            position: sticky; top:0; z-index:1000;
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: var(--transition);
         }
         
         .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 20px 0;
         }
         
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: var(--primary-dark);
+            display: flex; align-items: center; gap:12px;
+            text-decoration: none; color: var(--primary-dark);
         }
         
         .brand-logo {
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-weight: 700;
-            font-size: 20px;
-        }
-        
-        .brand-text {
-            font-weight: 800;
-            font-size: 18px;
-            letter-spacing: 0.5px;
+            width:50px; height:50px; background:var(--primary);
+            border-radius:var(--radius); color:white;
+            display:flex; align-items:center; justify-content:center;
+            font-weight:700; font-size:20px;
         }
         
         .nav-links {
-            display: flex;
-            gap: 24px;
-            align-items: center;
+            display:flex; gap:24px; align-items:center;
         }
         
         .nav-links a {
-            text-decoration: none;
-            color: var(--neutral);
-            font-weight: 600;
-            font-size: 15px;
-            position: relative;
-            padding: 8px 0;
-            transition: var(--transition);
+            color:var(--neutral); font-weight:600; text-decoration:none;
+            position:relative; padding:8px 0;
         }
         
-        .nav-links a:not(.btn):after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--accent);
-            transition: var(--transition);
-        }
+        .nav-links a:not(.btn):hover { color:var(--primary); }
         
-        .nav-links a:not(.btn):hover {
-            color: var(--primary);
-        }
+        .nav-toggle { display:none; font-size:24px; color:var(--primary); background:none; border:none; cursor:pointer; }
         
-        .nav-links a:not(.btn):hover:after {
-            width: 100%;
-        }
-        
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--primary);
-            cursor: pointer;
-        }
-        
-        /* Buttons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-radius: var(--radius);
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            gap: 8px;
+            padding:12px 24px; border-radius:var(--radius);
+            font-weight:600; cursor:pointer; text-decoration:none;
         }
         
-        .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
-        }
+        .btn-accent { background:var(--accent); color:var(--neutral-dark); }
+        .btn-outline { border:2px solid var(--primary); color:var(--primary); background:transparent; }
+        .btn-outline:hover { background:var(--primary); color:white; }
         
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        
-        .btn-accent {
-            background-color: var(--accent);
-            color: var(--neutral-dark);
-        }
-        
-        .btn-accent:hover {
-            background-color: var(--accent-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-        
-        /* Hero Section */
+        /* Hero */
         .page-hero {
-            padding: 100px 0 80px;
-            background: linear-gradient(135deg, rgba(10, 45, 62, 0.9) 0%, rgba(15, 76, 92, 0.8) 100%), url('https://images.unsplash.com/photo-1546484475-7f7bd55792da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
+            padding:100px 0 80px;
+            background: linear-gradient(135deg, rgba(10,45,62,0.9), rgba(15,76,92,0.8)),
+                        url('road.jpg');
+            background-size:cover; color:white;
         }
         
-        .page-hero .container {
-            position: relative;
-            z-index: 2;
+        .hero-title { font-size:48px; font-weight:800; margin-bottom:20px; }
+        .hero-subtitle { font-size:20px; opacity:0.9; max-width:700px; }
+        
+        @media (max-width:768px) {
+            .page-hero { padding:80px 0 60px; }
+            .hero-title { font-size:36px; }
         }
         
-        .hero-title {
-            font-size: 48px;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-        
-        .hero-subtitle {
-            font-size: 20px;
-            font-weight: 400;
-            opacity: 0.9;
-            max-width: 700px;
-        }
-        
-        @media (max-width: 768px) {
-            .page-hero {
-                padding: 80px 0 60px;
-            }
-            
-            .hero-title {
-                font-size: 36px;
-            }
-            
-            .hero-subtitle {
-                font-size: 18px;
-            }
-        }
-        
-        /* Section Styling */
-        .section {
-            padding: 80px 0;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        
+        /* Section */
+        .section { padding:80px 0; }
         .section-title {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-bottom: 16px;
+            text-align:center; font-size:36px; font-weight:800;
+            color:var(--primary-dark); margin-bottom:40px;
         }
         
-        .section-subtitle {
-            font-size: 18px;
-            color: var(--neutral-light);
-            max-width: 700px;
-            margin: 0 auto;
+        /* ─── CAROUSEL ROW ──────────────────────────────────────── */
+        .carousel-row {
+            margin: 50px 0;
         }
         
-        /* Projects Grid Layout */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-bottom: 60px;
+        .carousel-row h3 {
+            font-size: 24px; font-weight:700; margin-bottom:20px;
+            color: var(--primary);
         }
         
-        @media (max-width: 992px) {
-            .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .carousel-container {
+            position: relative;
         }
         
-        @media (max-width: 768px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
+        .projects-carousel {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 28px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0 30px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+        
+        .projects-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        .projects-carousel::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 4px;
         }
         
         .project-card {
-            background-color: var(--white);
+            flex: 0 0 260px;
+            width: 260px;
+            background: white;
             border-radius: var(--radius);
-            padding: 25px;
+            padding: 22px;
             box-shadow: var(--shadow);
-            transition: var(--transition);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            transition: all 0.3s ease;
+            display: flex; flex-direction: column;
             border-top: 4px solid var(--accent);
         }
         
@@ -336,300 +197,117 @@
         }
         
         .project-img {
-            width: 100%;
-            height: 180px;
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin-bottom: 20px;
+            height: 160px; border-radius: var(--radius);
+            overflow: hidden; margin-bottom: 16px;
             position: relative;
         }
         
         .project-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: var(--transition);
+            width:100%; height:100%; object-fit:cover;
+            transition: transform 0.4s ease;
         }
         
-        .project-card:hover .project-img img {
-            transform: scale(1.05);
-        }
+        .project-card:hover .project-img img { transform: scale(1.06); }
         
         .project-badge {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--white);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            position: absolute; bottom:8px; left:8px;
+            background: rgba(0,0,0,0.75); color:white;
+            padding:4px 10px; border-radius:16px;
+            font-size:11px; font-weight:600;
         }
         
         .project-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--primary-dark);
-            line-height: 1.3;
+            font-size:17px; font-weight:700; margin-bottom:10px;
+            line-height:1.3; color:var(--primary-dark);
         }
         
         .project-description {
-            color: var(--neutral);
-            margin-bottom: 20px;
-            flex-grow: 1;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size:13.5px; color:var(--neutral); margin-bottom:16px;
+            flex-grow:1;
         }
         
         .project-details {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--light-gray);
+            display:flex; flex-wrap:wrap; gap:8px; font-size:12px;
+            color:var(--neutral-light); margin-top:auto; padding-top:12px;
+            border-top:1px solid var(--light-gray);
         }
         
-        .project-detail {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--neutral-light);
+        .project-detail { display:flex; align-items:center; gap:5px; }
+        .project-detail i { color:var(--accent); font-size:13px; }
+        
+        /* Arrows per row */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px; height:48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.95);
+            border:1px solid var(--light-gray);
+            color: var(--primary);
+            font-size:18px;
+            display:flex; align-items:center; justify-content:center;
+            cursor:pointer; box-shadow:var(--shadow);
+            transition: all 0.25s ease;
+            z-index: 5;
         }
         
-        .project-detail i {
-            color: var(--accent);
-            font-size: 12px;
+        .carousel-arrow:hover {
+            background:var(--primary); color:white;
+            transform: translateY(-50%) scale(1.1);
         }
         
-        /* Project Categories Filter */
+        .carousel-arrow.left  { left: -10px; }
+        .carousel-arrow.right { right: -10px; }
+        
+        .carousel-arrow:disabled { opacity:0.35; cursor:not-allowed; }
+        
+        /* Responsive card sizes */
+        @media (min-width: 1400px) { .project-card { flex: 0 0 280px; width:280px; } }
+        @media (max-width: 1200px)  { .project-card { flex: 0 0 260px; width:260px; } }
+        @media (max-width: 992px)   { .project-card { flex: 0 0 240px; width:240px; } }
+        @media (max-width: 768px) {
+            .project-card {
+                flex: 0 0 78vw;
+                max-width: 320px;
+            }
+            .carousel-arrow { width:44px; height:44px; font-size:17px; }
+        }
+        
+        /* Filter */
         .project-filter {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 40px;
+            display:flex; justify-content:center; flex-wrap:wrap;
+            gap:12px; margin:0 auto 50px; max-width:900px;
         }
         
         .filter-btn {
-            padding: 10px 20px;
-            background-color: var(--light-gray);
-            border: none;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--neutral);
-            cursor: pointer;
-            transition: var(--transition);
+            padding:10px 20px; border-radius:30px;
+            background:var(--light-gray); border:none;
+            font-weight:600; cursor:pointer; transition:all 0.3s;
         }
         
-        .filter-btn:hover {
-            background-color: var(--primary-light);
-            color: var(--white);
-        }
-        
-        .filter-btn.active {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-        
-        /* Load More Button */
-        .load-more {
-            text-align: center;
-            margin-top: 50px;
-        }
-        
-        /* Footer */
-        .footer {
-            background-color: var(--neutral-dark);
-            color: var(--white);
-            padding: 60px 0 30px;
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-        
-        .footer-brand {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .footer-logo {
-            width: 60px;
-            height: 60px;
-            background-color: var(--accent);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--neutral-dark);
-            font-weight: 700;
-            font-size: 24px;
-        }
-        
-        .footer-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--white);
-        }
-        
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-        
-        .footer-bottom {
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
-        }
-        
-        @media (max-width: 768px) {
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .nav-toggle {
-                display: block;
-            }
-            
-            .project-filter {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .filter-btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu {
-            position: fixed;
-            top: 90px;
-            left: 0;
-            right: 0;
-            background-color: var(--white);
-            box-shadow: var(--shadow-lg);
-            padding: 20px;
-            z-index: 999;
-            transform: translateY(-100%);
-            opacity: 0;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            pointer-events: none;
-        }
-        
-        .mobile-menu.active {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .mobile-menu a {
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            text-decoration: none;
-            color: var(--neutral);
-            font-weight: 600;
-        }
-        
-        .mobile-menu a:last-child {
-            border-bottom: none;
-        }
+        .filter-btn.active,
+        .filter-btn:hover { background:var(--primary); color:white; }
         
         /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity:0; transform:translateY(25px); }
+            to   { opacity:1; transform:translateY(0); }
         }
+        .fade-in { animation: fadeInUp 0.9s ease forwards; }
         
-        .fade-in {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-        
-        .delay-1 {
-            animation-delay: 0.2s;
-        }
-        
-        .delay-2 {
-            animation-delay: 0.4s;
-        }
-        
-        .delay-3 {
-            animation-delay: 0.6s;
-        }
-        
-        .delay-4 {
-            animation-delay: 0.8s;
-        }
-        
-        .delay-5 {
-            animation-delay: 1s;
-        }
-        
-        /* Utility Classes */
-        .text-center {
-            text-align: center;
-        }
-        
-        .mt-40 {
-            margin-top: 40px;
-        }
-        
-        .mb-40 {
-            margin-bottom: 40px;
-        }
-        
-        .hidden {
-            display: none !important;
+        /* Footer (simplified) */
+        .footer {
+            background:var(--neutral-dark); color:white;
+            padding:60px 0 30px; text-align:center;
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar Vertical Text -->
+
     <div class="sidebar-text left">OUR PROJECTS</div>
     <div class="sidebar-text right">ENGINEERING EXCELLENCE</div>
-    
-    <!-- Header -->
+
     <header class="header">
         <div class="container">
             <div class="nav-container">
@@ -637,527 +315,263 @@
                     <div class="brand-logo">AEG</div>
                     <div class="brand-text">ACTIVE ENGINEERING GROUP</div>
                 </a>
-                
                 <nav class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="projects.html">Projects</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html" class="btn btn-accent">Contact Us</a>
-</nav>
-                
-                <button class="nav-toggle" id="mobileMenuToggle">
-                    <i class="fas fa-bars"></i>
-                </button>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="projects.html">Projects</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="contact.html" class="btn btn-accent">Contact Us</a>
+                </nav>
+                <button class="nav-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-        
-        <!-- Mobile Menu -->
-        <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="projects.html">Projects</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html">Contact Us</a>
-</div>
     </header>
-    
-    <!-- Hero Section -->
+
     <section class="page-hero">
         <div class="container">
             <h1 class="hero-title fade-in">Our Projects</h1>
-            <p class="hero-subtitle fade-in delay-1">A showcase of our national footprint and recent engineering achievements across Rwanda and the region.</p>
+            <p class="hero-subtitle fade-in">Showcasing our engineering achievements across Rwanda and beyond.</p>
         </div>
     </section>
-    
-    <!-- Projects Section -->
+
     <section class="section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title fade-in">Featured Projects</h2>
-                <p class="section-subtitle fade-in delay-1">Browse our portfolio of completed and ongoing engineering projects. Filter by category or view all.</p>
-            </div>
-            
-            <!-- Project Filter -->
-            <div class="project-filter fade-in delay-2">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="road">Roads & Highways</button>
-                <button class="filter-btn" data-filter="water">Water Supply</button>
+            <h2 class="section-title fade-in">Our Portfolio</h2>
+
+            <div class="project-filter fade-in">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="road">Roads</button>
+                <button class="filter-btn" data-filter="water">Water</button>
                 <button class="filter-btn" data-filter="bridge">Bridges</button>
-                <button class="filter-btn" data-filter="urban">Urban Development</button>
-                <button class="filter-btn" data-filter="survey">Surveying</button>
+                <button class="filter-btn" data-filter="urban">Urban</button>
+                <button class="filter-btn" data-filter="survey">Survey</button>
             </div>
-            
-            <!-- Projects Grid - 2 rows of 3 columns -->
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card fade-in delay-1" data-category="road">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1546484475-7f7bd55792da?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Huye City Roads">
-                        <div class="project-badge">Road Design</div>
-                    </div>
-                    <h3 class="project-title">HUYE CITY ROADS (RUDP PHASE 3)</h3>
-                    <p class="project-description">Detailed design of Rwabuge-Mbazi road (5 km) and Tumba (1 km) including drainage, pavement, and street lighting design.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Huye City</span>
+
+            <!-- Row 1 -->
+            <div class="carousel-row fade-in">
+                <h3>Infrastructure & Roads</h3>
+                <div class="carousel-container">
+                    <button class="carousel-arrow left" data-row="1"><i class="fas fa-chevron-left"></i></button>
+                    <div class="projects-carousel" data-row="1">
+                        <!-- Project 1 -->
+                        <div class="project-card" data-category="road">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1546484475-7f7bd55792da?w=800" alt="">
+                                <div class="project-badge">Road Design</div></div>
+                            <h3 class="project-title">HUYE CITY ROADS (RUDP PHASE 3)</h3>
+                            <p class="project-description">Detailed design of 6 km roads including drainage and lighting.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Huye</div>
+                                <div class="project-detail"><i class="fas fa-calendar-alt"></i> 2023</div>
+                            </div>
                         </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2023</span>
+
+                        <!-- Project 2 -->
+                        <div class="project-card" data-category="water">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800" alt="">
+                                <div class="project-badge">Water Supply</div></div>
+                            <h3 class="project-title">SAKE WATER SUPPLY SYSTEM</h3>
+                            <p class="project-description">487 km network design for Rusizi District.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Rusizi</div>
+                                <div class="project-detail"><i class="fas fa-ruler-combined"></i> 487 km</div>
+                            </div>
                         </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>6 km</span>
+
+                        <!-- Project 3 -->
+                        <div class="project-card" data-category="bridge">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1591825729267-8b2b6d4b7b3a?w=800" alt="">
+                                <div class="project-badge">Bridge</div></div>
+                            <h3 class="project-title">NYAGATARE BRIDGE</h3>
+                            <p class="project-description">45m span reinforced concrete bridge over Akagera River.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Nyagatare</div>
+                                <div class="project-detail"><i class="fas fa-calendar-alt"></i> 2022</div>
+                            </div>
                         </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 2 -->
-                <div class="project-card fade-in delay-2" data-category="water">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SAKE Water Supply">
-                        <div class="project-badge">Water Supply</div>
-                    </div>
-                    <h3 class="project-title">SAKE WATER SUPPLY SYSTEM</h3>
-                    <p class="project-description">Topographic survey and detailed design of water supply system covering 487 km network for Rusizi District.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Rusizi District</span>
+
+                        <!-- Project 4 -->
+                        <div class="project-card" data-category="urban">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=800" alt="">
+                                <div class="project-badge">Urban</div></div>
+                            <h3 class="project-title">KIGALI URBAN ROAD UPGRADE</h3>
+                            <p class="project-description">Redesign of 12 km urban roads with drainage & lighting.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Kigali</div>
+                                <div class="project-detail"><i class="fas fa-ruler-combined"></i> 12 km</div>
+                            </div>
                         </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2022-2023</span>
+
+                        <!-- Project 5 -->
+                        <div class="project-card" data-category="survey">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800" alt="">
+                                <div class="project-badge">Surveying</div></div>
+                            <h3 class="project-title">BUGESERA AIRPORT SURVEY</h3>
+                            <p class="project-description">Geodetic control survey for new international airport.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Bugesera</div>
+                                <div class="project-detail"><i class="fas fa-ruler-combined"></i> 2,500 Ha</div>
+                            </div>
                         </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>487 km</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 3 -->
-                <div class="project-card fade-in delay-3" data-category="bridge">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1591825729267-8b2b6d4b7b3a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bridge Construction">
-                        <div class="project-badge">Bridge Construction</div>
-                    </div>
-                    <h3 class="project-title">NYAGATARE BRIDGE</h3>
-                    <p class="project-description">Design and supervision of a 45m span reinforced concrete bridge over Akagera River with geotechnical investigations.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Nyagatare District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2022</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>45m span</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 4 -->
-                <div class="project-card fade-in delay-1" data-category="urban">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Urban Road Upgrade">
-                        <div class="project-badge">Urban Development</div>
-                    </div>
-                    <h3 class="project-title">KIGALI URBAN ROAD UPGRADE</h3>
-                    <p class="project-description">Redesign and value engineering of 12km urban roads with improved drainage, lighting, and pedestrian facilities.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Kigali City</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2021-2022</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>12 km</span>
+
+                        <!-- Project 6 (hidden until scroll) -->
+                        <div class="project-card" data-category="urban">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1516939884445-4e6f5fca5c2a?w=800" alt="">
+                                <div class="project-badge">Industrial</div></div>
+                            <h3 class="project-title">MUSANZE INDUSTRIAL PARK</h3>
+                            <p class="project-description">Master planning & infrastructure for 50 Ha park.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Musanze</div>
+                                <div class="project-detail"><i class="fas fa-ruler-combined"></i> 50 Ha</div>
+                            </div>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 5 -->
-                <div class="project-card fade-in delay-2" data-category="survey">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Airport Survey">
-                        <div class="project-badge">Surveying</div>
-                    </div>
-                    <h3 class="project-title">BUGESERA AIRPORT SURVEY</h3>
-                    <p class="project-description">Precise WGS84 geodetic control survey for the new international airport development project.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Bugesera District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2023</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>2,500 Ha</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 6 -->
-                <div class="project-card fade-in delay-3" data-category="urban">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1516939884445-4e6f5fca5c2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Industrial Park">
-                        <div class="project-badge">Industrial Development</div>
-                    </div>
-                    <h3 class="project-title">MUSANZE INDUSTRIAL PARK</h3>
-                    <p class="project-description">Master planning, site layout, and infrastructure design for 50-hectare industrial park with all utilities.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Musanze District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2023-Present</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>50 Ha</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Additional Projects Row 2 -->
-                
-                <!-- Project 7 -->
-                <div class="project-card fade-in delay-1" data-category="water">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Water Treatment Plant">
-                        <div class="project-badge">Water Treatment</div>
-                    </div>
-                    <h3 class="project-title">RUHENGERI WATER TREATMENT PLANT</h3>
-                    <p class="project-description">Design and supervision of water treatment facility with capacity of 10,000 m³/day serving 100,000 residents.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Musanze District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2022</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-tint"></i>
-                            <span>10,000 m³/day</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 8 -->
-                <div class="project-card fade-in delay-2" data-category="road">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mountain Road">
-                        <div class="project-badge">Mountain Roads</div>
-                    </div>
-                    <h3 class="project-title">KARONGI - RUTSIRO ROAD</h3>
-                    <p class="project-description">Design of 18km mountain road with slope stabilization and drainage systems in challenging terrain.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Western Province</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2021-2022</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>18 km</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 9 -->
-                <div class="project-card fade-in delay-3" data-category="bridge">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pedestrian Bridge">
-                        <div class="project-badge">Pedestrian Bridge</div>
-                    </div>
-                    <h3 class="project-title">KIGALI PEDESTRIAN BRIDGES</h3>
-                    <p class="project-description">Design of 3 pedestrian bridges in Kigali city to improve safety and connectivity for pedestrians.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Kigali City</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2023</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-walking"></i>
-                            <span>3 Bridges</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
+                    <button class="carousel-arrow right" data-row="1"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
-            
-            <!-- Hidden Projects for Load More -->
-            <div class="projects-grid hidden" id="more-projects">
-                <!-- Project 10 -->
-                <div class="project-card" data-category="survey">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Land Survey">
-                        <div class="project-badge">Land Survey</div>
+
+            <!-- Row 2 -->
+            <div class="carousel-row fade-in">
+                <h3>Water & Treatment Projects</h3>
+                <div class="carousel-container">
+                    <button class="carousel-arrow left" data-row="2"><i class="fas fa-chevron-left"></i></button>
+                    <div class="projects-carousel" data-row="2">
+                        <!-- Project 7 -->
+                        <div class="project-card" data-category="water">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1579546929662-711aa81148cf?w=800" alt="">
+                                <div class="project-badge">Treatment</div></div>
+                            <h3 class="project-title">RUHENGERI WATER TREATMENT PLANT</h3>
+                            <p class="project-description">10,000 m³/day facility serving 100,000 residents.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Musanze</div>
+                                <div class="project-detail"><i class="fas fa-tint"></i> 10,000 m³/day</div>
+                            </div>
+                        </div>
+
+                        <!-- Project 8 -->
+                        <div class="project-card" data-category="road">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800" alt="">
+                                <div class="project-badge">Mountain Road</div></div>
+                            <h3 class="project-title">KARONGI - RUTSIRO ROAD</h3>
+                            <p class="project-description">18 km mountain road with slope stabilization.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Western</div>
+                                <div class="project-detail"><i class="fas fa-ruler-combined"></i> 18 km</div>
+                            </div>
+                        </div>
+
+                        <!-- Project 9 -->
+                        <div class="project-card" data-category="bridge">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="">
+                                <div class="project-badge">Pedestrian</div></div>
+                            <h3 class="project-title">KIGALI PEDESTRIAN BRIDGES</h3>
+                            <p class="project-description">Design of 3 pedestrian bridges for safety & connectivity.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Kigali</div>
+                                <div class="project-detail"><i class="fas fa-walking"></i> 3 Bridges</div>
+                            </div>
+                        </div>
+
+                        <!-- Project 10 -->
+                        <div class="project-card" data-category="survey">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800" alt="">
+                                <div class="project-badge">Cadastral</div></div>
+                            <h3 class="project-title">GISOGO LAND SUBDIVISION SURVEY</h3>
+                            <p class="project-description">Cadastral survey of 200 hectares in Kigali.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Gasabo</div>
+                                <div class="project-detail"><i class="fas fa-ruler-combined"></i> 200 Ha</div>
+                            </div>
+                        </div>
+
+                        <!-- Project 11 -->
+                        <div class="project-card" data-category="urban">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800" alt="">
+                                <div class="project-badge">Drainage</div></div>
+                            <h3 class="project-title">NYARUGENGE DRAINAGE SYSTEM</h3>
+                            <p class="project-description">Comprehensive drainage to prevent flooding.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Nyarugenge</div>
+                                <div class="project-detail"><i class="fas fa-water"></i> 8 km</div>
+                            </div>
+                        </div>
+
+                        <!-- Project 12 -->
+                        <div class="project-card" data-category="water">
+                            <div class="project-img"><img src="https://images.unsplash.com/photo-1506792006437-256b665541e2?w=800" alt="">
+                                <div class="project-badge">Irrigation</div></div>
+                            <h3 class="project-title">RWAMAGANA IRRIGATION SCHEME</h3>
+                            <p class="project-description">Irrigation system for 500 hectares farmland.</p>
+                            <div class="project-details">
+                                <div class="project-detail"><i class="fas fa-map-marker-alt"></i> Rwamagana</div>
+                                <div class="project-detail"><i class="fas fa-tint"></i> 500 Ha</div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="project-title">GISOGO LAND SUBDIVISION SURVEY</h3>
-                    <p class="project-description">Cadastral survey and subdivision of 200 hectares for residential development in Kigali.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Gasabo District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2023</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-ruler-combined"></i>
-                            <span>200 Ha</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 11 -->
-                <div class="project-card" data-category="urban">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Drainage System">
-                        <div class="project-badge">Drainage System</div>
-                    </div>
-                    <h3 class="project-title">NYARUGENGE DRAINAGE SYSTEM</h3>
-                    <p class="project-description">Design of comprehensive drainage system to address flooding in Nyarugenge sector of Kigali.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Nyarugenge District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2022</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-water"></i>
-                            <span>8 km</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
-                </div>
-                
-                <!-- Project 12 -->
-                <div class="project-card" data-category="water">
-                    <div class="project-img">
-                        <img src="https://images.unsplash.com/photo-1506792006437-256b665541e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Irrigation System">
-                        <div class="project-badge">Irrigation</div>
-                    </div>
-                    <h3 class="project-title">RWAMAGANA IRRIGATION SCHEME</h3>
-                    <p class="project-description">Design of irrigation system for 500 hectares of agricultural land in Rwamagana District.</p>
-                    <div class="project-details">
-                        <div class="project-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Rwamagana District</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>2023-Present</span>
-                        </div>
-                        <div class="project-detail">
-                            <i class="fas fa-tint"></i>
-                            <span>500 Ha</span>
-                        </div>
-                    </div>
-                    <a href="#" class="btn btn-outline" style="margin-top: 15px;">View Details</a>
+                    <button class="carousel-arrow right" data-row="2"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
-            
-            <!-- Load More Button -->
-            <div class="load-more">
-                <button class="btn btn-accent" id="loadMoreBtn">Load More Projects</button>
+
+            <!-- Row 3 (you can duplicate or add more projects here) -->
+            <div class="carousel-row fade-in">
+                <h3>Recent & Ongoing Works</h3>
+                <div class="carousel-container">
+                    <button class="carousel-arrow left" data-row="3"><i class="fas fa-chevron-left"></i></button>
+                    <div class="projects-carousel" data-row="3">
+                        <!-- You can repeat some projects or add new ones -->
+                        <div class="project-card" data-category="road"></div>
+                        <!-- Add 5–8 more cards here if needed -->
+                    </div>
+                    <button class="carousel-arrow right" data-row="3"><i class="fas fa-chevron-right"></i></button>
+                </div>
             </div>
+
         </div>
     </section>
-    
-    <!-- Footer -->
+
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">AEG</div>
-                    <div>
-                        <div style="font-size: 20px; font-weight: 700; margin-bottom: 10px;">Active Engineering Group</div>
-                        <p style="color: rgba(255, 255, 255, 0.7);">Integrity • Excellence • Sustainability • Client-Centered • Innovation</p>
-                    </div>
-                </div>
-                
-                <div>
-                    <div class="footer-title">Quick Links</div>
-                    <div class="footer-links">
-                        <a href="services.html">Services</a>
-                        <a href="projects.html">Projects</a>
-                        <a href="about.html">About Us</a>
-                        <a href="blog.html">Blog</a>
-                        <a href="contact.html">Contact</a>
-                    </div>
-                </div>
-                
-                <div>
-                    <div class="footer-title">Contact Info</div>
-                    <div style="color: rgba(255, 255, 255, 0.7);">
-                        <p style="margin-bottom: 10px;">KG14 Ave, Gisozi, Kigali — Rwanda</p>
-                        <p style="margin-bottom: 10px;">activegroup2021@gmail.com</p>
-                        <p>+250 781 537 973 / +250 788 981 320</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2024 Active Engineering Group. All rights reserved.</p>
-            </div>
+            <p>© 2024–2026 Active Engineering Group. All rights reserved.</p>
         </div>
     </footer>
-    
+
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        
-        if (mobileMenuToggle && mobileMenu) {
-            mobileMenuToggle.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-            });
-            
-            // Close menu when clicking a link
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('active');
-                });
-            });
-        }
-        
-        // Project Filter Functionality
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const projectCards = document.querySelectorAll('.project-card');
-        
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Get filter value
-                const filterValue = button.getAttribute('data-filter');
-                
-                // Show/hide projects based on filter
-                projectCards.forEach(card => {
-                    const cardCategory = card.getAttribute('data-category');
-                    
-                    if (filterValue === 'all' || cardCategory === filterValue) {
-                        card.style.display = 'flex';
-                        // Add fade-in animation
-                        card.classList.add('fade-in');
-                    } else {
-                        card.style.display = 'none';
-                        card.classList.remove('fade-in');
-                    }
-                });
-                
-                // Also filter hidden projects
-                const hiddenProjects = document.querySelectorAll('#more-projects .project-card');
-                hiddenProjects.forEach(card => {
-                    const cardCategory = card.getAttribute('data-category');
-                    
-                    if (filterValue === 'all' || cardCategory === filterValue) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
+        // Mobile menu (if needed)
+        document.getElementById('mobileMenuToggle')?.addEventListener('click', () => {
+            // toggle mobile menu logic here if you add it
+        });
+
+        // Carousel scroll per row
+        document.querySelectorAll('.carousel-arrow').forEach(arrow => {
+            arrow.addEventListener('click', () => {
+                const rowNum = arrow.dataset.row;
+                const carousel = document.querySelector(`.projects-carousel[data-row="${rowNum}"]`);
+                if (!carousel) return;
+
+                const direction = arrow.classList.contains('left') ? -1 : 1;
+                const scrollAmount = (260 + 28) * 3; // card + gap × 3 cards jump
+
+                carousel.scrollBy({
+                    left: direction * scrollAmount,
+                    behavior: 'smooth'
                 });
             });
         });
-        
-        // Load More Projects
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const moreProjects = document.getElementById('more-projects');
-        
-        if (loadMoreBtn && moreProjects) {
-            loadMoreBtn.addEventListener('click', () => {
-                // Show hidden projects
-                moreProjects.classList.remove('hidden');
-                
-                // Add fade-in animation to newly shown projects
-                const hiddenCards = moreProjects.querySelectorAll('.project-card');
-                hiddenCards.forEach((card, index) => {
-                    // Reset animation classes
-                    card.classList.remove('fade-in', 'delay-1', 'delay-2', 'delay-3');
-                    
-                    // Force reflow to restart animation
-                    void card.offsetWidth;
-                    
-                    // Add appropriate delay class based on position
-                    if (index % 3 === 0) {
-                        card.classList.add('fade-in');
-                    } else if (index % 3 === 1) {
-                        card.classList.add('fade-in', 'delay-1');
-                    } else {
-                        card.classList.add('fade-in', 'delay-2');
-                    }
+
+        // Filter logic – hide non-matching cards across ALL rows
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                document.querySelectorAll('.project-card').forEach(card => {
+                    const cat = card.dataset.category;
+                    card.style.display = (filter === 'all' || cat === filter) ? 'flex' : 'none';
                 });
-                
-                // Hide the load more button
-                loadMoreBtn.style.display = 'none';
             });
-        }
-        
-        // Fade-in animation on scroll
-        const fadeElements = document.querySelectorAll('.fade-in');
-        
-        function checkFade() {
-            fadeElements.forEach(element => {
-                const elementTop = element.getBoundingClientRect().top;
-                const windowHeight = window.innerHeight;
-                
-                if (elementTop < windowHeight - 100) {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }
-            });
-        }
-        
-        // Initial check
-        checkFade();
-        
-        // Check on scroll
-        window.addEventListener('scroll', checkFade);
+        });
     </script>
 </body>
 </html>
