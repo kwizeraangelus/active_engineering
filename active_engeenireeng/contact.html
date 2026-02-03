@@ -6,6 +6,13 @@
     <title>Contact | Active Engineering Group</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual public key
+        })();
+    </script>
     <style>
         :root {
             --primary-dark: #0A2D3E;
@@ -651,9 +658,25 @@
             display: none;
         }
         
-        .success-message.show {
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid #f5c6cb;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .success-message.show,
+        .error-message.show {
             display: block;
             animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
         }
         
         /* Utility Classes */
@@ -685,13 +708,13 @@
                 </a>
                 
                 <nav class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="projects.html">Projects</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html" class="btn btn-accent">Contact Us</a>
-</nav>
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="projects.html">Projects</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="contact.html" class="btn btn-accent">Contact Us</a>
+                </nav>
                 
                 <button class="nav-toggle" id="mobileMenuToggle">
                     <i class="fas fa-bars"></i>
@@ -701,13 +724,13 @@
         
         <!-- Mobile Menu -->
         <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="services.html">Services</a>
-    <a href="projects.html">Projects</a>
-    <a href="blog.html">Blog</a>
-    <a href="contact.html">Contact Us</a>
-</div>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="projects.html">Projects</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
     </header>
     
     <!-- Hero Section -->
@@ -749,7 +772,7 @@
                                 <h3>Email Address</h3>
                                 <p><a href="mailto:activegroup2021@gmail.com">activegroup2021@gmail.com</a></p>
                                 <p><a href="mailto:sixson2012@gmail.com">sixson2012@gmail.com</a></p>
-                                <p><a href="mailto:msvirgile1@gmail.com">msvirgile1@gmail.com</a></p>
+                                
                             </div>
                         </div>
                         
@@ -829,7 +852,11 @@
                                 <i class="fas fa-check-circle"></i> Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.
                             </div>
                             
-                            <button type="submit" class="btn btn-accent" style="width: 100%; padding: 16px;">
+                            <div id="errorMessage" class="error-message">
+                                <i class="fas fa-exclamation-circle"></i> There was an error sending your message. Please try again or contact us directly.
+                            </div>
+                            
+                            <button type="submit" class="btn btn-accent" id="submitButton" style="width: 100%; padding: 16px;">
                                 <i class="fas fa-paper-plane"></i> Send Message
                             </button>
                         </form>
@@ -846,11 +873,7 @@
                 
                 <div class="location-card">
                     <div class="map-container">
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.4906541791214!2d30.074747474994444!3d-1.9472879970890544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca4258ed9d5a3%3A0xf4c7a3d2e91f3b8f!2sKG14%20Ave%2C%20Kigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1624456789012!5m2!1sen!2sus" 
-                            allowfullscreen="" 
-                            loading="lazy">
-                        </iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15950.26302407698!2d30.05528019787385!3d-1.925396179708919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca3c165a24287%3A0x83ca415eb2aec314!2sKINGAKATI%20KGL!5e0!3m2!1sen!2srw!4v1769906981221!5m2!1sen!2srw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </div>
@@ -959,18 +982,23 @@
             });
         }
         
-        // Contact Form Submission
+        // Contact Form Submission with EmailJS
         const contactForm = document.getElementById('contactForm');
         const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const submitButton = document.getElementById('submitButton');
         
-        if (contactForm && successMessage) {
-            contactForm.addEventListener('submit', function(e) {
+        if (contactForm && successMessage && errorMessage) {
+            contactForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // Get form values
                 const name = document.getElementById('name').value;
                 const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value || 'Not provided';
+                const subject = document.getElementById('subject').value || 'No subject';
                 const message = document.getElementById('message').value;
+                const service = document.getElementById('service').value || 'Not specified';
                 
                 // Simple validation
                 if (!name || !email || !message) {
@@ -978,19 +1006,62 @@
                     return;
                 }
                 
-                // Show success message
-                successMessage.classList.add('show');
+                // Show loading state
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitButton.classList.add('loading');
                 
-                // Reset form
-                contactForm.reset();
+                // Hide previous messages
+                successMessage.classList.remove('show');
+                errorMessage.classList.remove('show');
                 
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                }, 5000);
-                
-                // In a real application, you would send the form data to a server here
-                console.log('Form submitted:', { name, email, message });
+                try {
+                    // Send email using EmailJS
+                    const templateParams = {
+                        from_name: name,
+                        from_email: email,
+                        phone: phone,
+                        subject: subject,
+                        message: message,
+                        service: service,
+                        to_email: 'activegroup2021@gmail.com', // Your receiving email
+                        date: new Date().toLocaleString()
+                    };
+                    
+                    // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual IDs from EmailJS
+                    const response = await emailjs.send(
+                        'YOUR_SERVICE_ID', // Replace with your EmailJS Service ID
+                        'YOUR_TEMPLATE_ID', // Replace with your EmailJS Template ID
+                        templateParams
+                    );
+                    
+                    console.log('Email sent successfully!', response.status, response.text);
+                    
+                    // Show success message
+                    successMessage.classList.add('show');
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 5000);
+                    
+                } catch (error) {
+                    console.error('Email sending failed:', error);
+                    
+                    // Show error message
+                    errorMessage.classList.add('show');
+                    
+                    // Hide error message after 5 seconds
+                    setTimeout(() => {
+                        errorMessage.classList.remove('show');
+                    }, 5000);
+                } finally {
+                    // Reset button state
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+                    submitButton.classList.remove('loading');
+                }
             });
         }
         
